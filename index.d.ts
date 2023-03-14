@@ -122,7 +122,7 @@ declare namespace sails {
     /**
      * @http
      */
-    file(field: string): void;
+    file(field: string): any;
     /**
      * @http
      * @websocket
