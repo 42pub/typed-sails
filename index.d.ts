@@ -35,7 +35,6 @@ declare namespace sails {
       session: Config.Session,
       sockets: Config.Sockets,
       views: Config.Views
-      [ key: string ]: any;
     };
     sockets: any;
     // io: SocketIO.Server;
@@ -58,7 +57,6 @@ declare namespace sails {
       userconfig: Hooks.UserConfig & any,
       userhooks: Hooks.UserHooks & any,
       views: Hooks.Views & any
-      [ key: string ]: any;
     };
 
     load(options?: any, cb?: (err: Error, sails: Sails) => void): void;
@@ -75,7 +73,6 @@ declare namespace sails {
     after(event: string[], listener: Function): this;
 
     router: Router
-    [ key: string ]: any;
   }
 
   interface Router {
@@ -89,7 +86,7 @@ declare namespace sails {
   }
 
   interface RouterObject {
-    target:any;
+    target: any;
     fn: any;
   }
 
@@ -122,7 +119,7 @@ declare namespace sails {
     /**
      * @http
      */
-    file(field: string): any;
+    file(field: string): void;
     /**
      * @http
      * @websocket
@@ -348,10 +345,10 @@ declare namespace sails {
      * @websocket
      */
     serverError(data?: any, pathToView?: string): void;
-        /**
-     * @http
-     * @websocket
-     */
+    /**
+ * @http
+ * @websocket
+ */
     redirect(url: string): Response;
   }
 
@@ -825,36 +822,67 @@ declare namespace sails {
        * @type {string}
        */
       migrate: string;
+
+      /**  
+       * Whether model methods like `.create()` and `.update()` should ignore
+       * (and refuse to persist) unrecognized data-- i.e. properties other than   
+       * those explicitly defined by attributes in the model definition. 
+       */
+      schema?: boolean;
       /**
        * The default database connection any given model will use without a configured override
        * @type {string}
        */
-      connection: string;
+
+      connection?: string;
       /**
        * Toggle the automatic definition of a primary key in your model
        * @type {boolean}
        */
-      autoPK: boolean;
+      autoPK?: boolean;
       /**
        * Toggle the automatic definition of a property createdAt in your model
        * @type {boolean}
        */
-      autoCreatedAt: boolean;
+      autoCreatedAt?: boolean;
       /**
        * Toggle the automatic definition of a property updatedAt in your model
        * @type {boolean}
        */
-      autoUpdatedAt: boolean;
+      autoUpdatedAt?: boolean;
       /**
        * Used to specify database table name for the model
        * @type {string}
        */
-      tableName: string;
+      tableName?: string;
       /**
        * Toggle the automatic creation of Dynamic Finders
        * @type {boolean}
        */
-      dynamicFinders: boolean;
+      dynamicFinders?: boolean;
+
+      /**                                                                        
+      * Whether or not implicit records for associations should be cleaned up    
+      * automatically using the built-in polyfill.  This is especially useful    
+      * during development with sails-disk.                                      
+      *                                                                          
+      * Depending on which databases you're using, you may want to disable this  
+      * polyfill in your production environment.                                 
+      *                                                                          
+      * (For production configuration, see `config/env/production.js`.)          
+      *                                                                          
+      * @type {boolean}
+      * */
+      cascadeOnDestroy: boolean
+      
+      /*                                                       
+      * @type {boolean}
+      * */
+      archiveModelIdentity: boolean
+
+      dataEncryptionKeys: {
+        [key: string]: string
+      }
     }
     interface Session {
       /**
